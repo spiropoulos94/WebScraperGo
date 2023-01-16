@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"io"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"regexp"
@@ -39,7 +42,19 @@ func main() {
 	}
 	defer htmlBytes.Close()
 
-	html := make([]byte, resp.ContentLength)
+	//
+	fileContent, err := ioutil.ReadFile("index.html")
+   if err != nil {
+      log.Fatal(err)
+   }
+
+   // Convert []byte to string
+   text := string(fileContent)
+   fmt.Println(text)
+
+   length := len(text)
+
+	html := make([]byte, length) // prin eixe respConent.length
 	htmlBytes.Read(html)
 
 	// Replace the URLs of linked assets with local file paths
